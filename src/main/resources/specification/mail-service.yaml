@@ -1,0 +1,59 @@
+openapi: "3.0.3"
+info:
+  description: Mail-Service
+  title: MailService
+  version: ${project.version}
+servers:
+  - url: 'https'
+tags:
+  - name: mail-sender
+paths:
+  /api/v1/send-mail:
+    post:
+      tags:
+        - mail-sender
+      operationId: sendMail
+      description: send a mail
+      requestBody:
+        description: MailRequest
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MailRequest"
+        required: true
+      responses:
+        "201":
+          description: MailResponse
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MailSuccessfullySendResponse"
+components:
+  schemas:
+    MailRequest:
+      type: object
+      required:
+        - mail-adress
+        - subject
+        - content
+      properties:
+        mail-adress:
+          type: string
+        subject:
+          type: string
+        content:
+          type: string
+    MailSuccessfullySendResponse:
+      type: object
+      required:
+        - status
+        - mail-adress
+        - subject
+      properties:
+        status:
+          type: string
+          default: "Your mail was successfully send!"
+        mail-adress:
+          type: string
+        subject:
+          type: string
